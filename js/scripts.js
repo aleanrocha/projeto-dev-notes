@@ -28,7 +28,6 @@ const addNotes = () => {
   notes.push(noteObject)
   saveNotesLocal(notes)
   noteInput.value = ""
-  console.log(noteObject)
 }
 // gera um id em ordem crescente
 const generetedId = () => {return contador++}
@@ -40,9 +39,19 @@ const createNote = (id, content, fixed) => {
   newElementTextarea.placeholder = ("Digite algum texto")
   newElementTextarea.value = content
   newElementDiv.appendChild(newElementTextarea)
+  const newIconFixed = document.createElement("i")
+  newIconFixed.classList.add(...["bi", "bi-pin"])
+  newElementDiv.appendChild(newIconFixed)
+  newElementDiv.querySelector(".bi-pin").addEventListener("click", () => fixedNote(id))
+  if(fixed) newElementDiv.classList.add("fixed")
   return newElementDiv
 }
-
+const fixedNote = (id) => {
+  const notes = getNotes()
+  const targetNote = notes.filter((note) => note.id === id)[0]
+  targetNote.fixed = !targetNote.fixed
+  saveNotesLocal(notes)
+}
 // LocalStorage
 
 // obtém as notas do localStorage
@@ -50,7 +59,6 @@ const getNotes = () => {
   const notes = JSON.parse(localStorage.getItem("notes") || "[]")
   return notes
 }
-
 // salva as notas no localStorage
 const saveNotesLocal = (notes) => {
   localStorage.setItem("notes", JSON.stringify(notes))
