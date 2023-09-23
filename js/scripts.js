@@ -9,11 +9,14 @@ let contador = 0
 
 // exibir notas ao inicializar
 const showNotes = () => {
+  cleanNotes()
   getNotes().forEach((note) => {
     const newElementDiv = createNote(note.id, note.content, note.fixed)
     notesContainer.appendChild(newElementDiv)
   })
 }
+// limpar notas
+const cleanNotes = () => notesContainer.replaceChildren([])
 // adiciona as notas no container
 const addNotes = () => {
   const notes = getNotes()
@@ -46,18 +49,21 @@ const createNote = (id, content, fixed) => {
   if(fixed) newElementDiv.classList.add("fixed")
   return newElementDiv
 }
+// fixar notas
 const fixedNote = (id) => {
   const notes = getNotes()
   const targetNote = notes.filter((note) => note.id === id)[0]
   targetNote.fixed = !targetNote.fixed
   saveNotesLocal(notes)
+  showNotes()
 }
 // LocalStorage
 
 // obtém as notas do localStorage
 const getNotes = () => {
   const notes = JSON.parse(localStorage.getItem("notes") || "[]")
-  return notes
+  const orderedNotes = notes.sort((a, b) => a.fixed > b.fixed ? -1 : 1)
+  return orderedNotes
 }
 // salva as notas no localStorage
 const saveNotesLocal = (notes) => {
