@@ -9,6 +9,29 @@
   <title>Dev Notes</title>
 </head>
 <body>
-  <h1>Hello world</h1>
+  <header>
+    <h1>DevNotes</h1>
+    <div id="search-container">
+      <i class="bi bi-search"></i>
+      <input type="text" id="search" placeholder="Busque por uma nota">
+    </div>
+    <button>
+      Exportar CSV <i class="bi bi-download"></i>
+    </button>
+  </header>
+  <div id="add-note-container">
+    <input type="text" id="note-content" placeholder="O que você deseja anotar?">
+    <button id="add-note">
+      <i class="bi bi-plus-lg"></i>
+    </button>
+  </div>
+  <div id="notes-container">
+    <div class="note">
+      <textarea placeholder="Digit algum texto"></textarea>
+      <i class="bi bi-pin"></i>
+      <i class="bi bi-x-lg"></i>
+      <i class="bi bi-file-earmark-plus"></i>
+    </div>
+  </div>
 </body>
 </html>
