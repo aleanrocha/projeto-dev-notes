@@ -4,6 +4,7 @@ const noteInput = document.querySelector("#note-content")
 const addNoteBtn = document.querySelector("#add-note")
 const notesContainer = document.querySelector("#notes-container")
 const searchInput = document.querySelector("#search")
+const exportBtn = document.querySelector("header > button")
 let contador = 0
 
 // Funções
@@ -107,6 +108,20 @@ const searchNotes = (searchValue) => {
   cleanNotes()
   showNotes()
 }
+// download das notas em CSV
+const exportNote = () => {
+  const notes = getNotes()
+  // CSV separa o dado por, vírgula e quebra linha \n
+  const csvString = [
+    ["id", "content", "fixed"],
+    ...notes.map((note) => [note.id,note.content,note.fixed])
+  ].map((e) => e.join(",")).join("\n")
+  const element = document.createElement("a")
+  element.href = "data:text/csv;charset-utf-8," + encodeURI(csvString)
+  element.target = "_black"
+  element.download = "notes.csv"
+  element.click()
+}
 // LocalStorage
 
 // obtém as notas do localStorage
@@ -125,6 +140,7 @@ const saveNotesLocal = (notes) => {
 addNoteBtn.addEventListener("click", addNotes)
 searchInput.addEventListener("keyup", (e) => searchNotes(e.target.value))
 noteInput.addEventListener("keydown", (e) => {if(e.key === "Enter") addNotes()})
+exportBtn.addEventListener("click", exportNote)
 
 // Inicialização
 showNotes()
