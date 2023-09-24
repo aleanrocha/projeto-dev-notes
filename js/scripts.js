@@ -46,6 +46,14 @@ const createNote = (id, content, fixed) => {
   newIconFixed.classList.add(...["bi", "bi-pin"])
   newElementDiv.appendChild(newIconFixed)
   newElementDiv.querySelector(".bi-pin").addEventListener("click", () => fixedNote(id))
+  const newIconDelete = document.createElement("i")
+  newIconDelete.classList.add(...["bi", "bi-x-lg"])
+  newElementDiv.appendChild(newIconDelete)
+  newElementDiv.querySelector(".bi-x-lg").addEventListener("click", () => deleteNote(id, newElementDiv))
+  const newIconEarmark = document.createElement("i")
+  newIconEarmark.classList.add(...["bi", "bi-file-earmark-plus"])
+  newElementDiv.appendChild(newIconEarmark)
+  newElementDiv.querySelector(".bi-file-earmark-plus").addEventListener("click", () => copyNote(id))
   if(fixed) newElementDiv.classList.add("fixed")
   return newElementDiv
 }
@@ -56,6 +64,26 @@ const fixedNote = (id) => {
   targetNote.fixed = !targetNote.fixed
   saveNotesLocal(notes)
   showNotes()
+}
+// deletar nota
+const deleteNote = (id, element) => {
+  const notes = getNotes().filter((note) => note.id !== id)
+  saveNotesLocal(notes)
+  notesContainer.removeChild(element)
+} 
+// copiar/duplicar bota
+const copyNote = (id) => {
+  const notes = getNotes()
+  const targetNote = notes.filter((note) => note.id === id)[0]
+  const noteObject = {
+    id: generetedId(),
+    content: targetNote.content,
+    fixed: false
+  }
+  const newElementDiv = createNote(noteObject.id, noteObject.content, noteObject.fixed)
+  notesContainer.appendChild(newElementDiv)
+  notes.push(noteObject)
+  saveNotesLocal(notes)
 }
 // LocalStorage
 
