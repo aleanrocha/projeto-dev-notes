@@ -3,6 +3,7 @@
 const noteInput = document.querySelector("#note-content")
 const addNoteBtn = document.querySelector("#add-note")
 const notesContainer = document.querySelector("#notes-container")
+const searchInput = document.querySelector("#search")
 let contador = 0
 
 // Funções
@@ -93,6 +94,19 @@ const updateNote = (id, newContent) => {
   targetNote.content = newContent
   saveNotesLocal(notes)
 }
+const searchNotes = (searchValue) => {
+  const searchResults = getNotes().filter((note) => note.content.includes(searchValue.trim()))
+  if (searchValue.trim() !== "") {
+    cleanNotes()
+    searchResults.forEach((note) => {
+      const noteContent = createNote(note.id, note.content)
+      notesContainer.appendChild(noteContent)
+    })
+    return
+  }
+  cleanNotes()
+  showNotes()
+}
 // LocalStorage
 
 // obtém as notas do localStorage
@@ -109,6 +123,8 @@ const saveNotesLocal = (notes) => {
 // Eventos
 
 addNoteBtn.addEventListener("click", addNotes)
+searchInput.addEventListener("keyup", (e) => searchNotes(e.target.value))
+noteInput.addEventListener("keydown", (e) => {if(e.key === "Enter") addNotes()})
 
 // Inicialização
 showNotes()
