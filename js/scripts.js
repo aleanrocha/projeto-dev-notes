@@ -55,6 +55,8 @@ const createNote = (id, content, fixed) => {
   newElementDiv.appendChild(newIconEarmark)
   newElementDiv.querySelector(".bi-file-earmark-plus").addEventListener("click", () => copyNote(id))
   if(fixed) newElementDiv.classList.add("fixed")
+  newElementDiv.querySelector("textarea").addEventListener("keyup", (e) => updateNote(id, e.target.value))
+
   return newElementDiv
 }
 // fixar notas
@@ -83,6 +85,12 @@ const copyNote = (id) => {
   const newElementDiv = createNote(noteObject.id, noteObject.content, noteObject.fixed)
   notesContainer.appendChild(newElementDiv)
   notes.push(noteObject)
+  saveNotesLocal(notes)
+}
+const updateNote = (id, newContent) => {
+  const notes = getNotes()
+  const targetNote = notes.filter((note) => note.id === id)[0]
+  targetNote.content = newContent
   saveNotesLocal(notes)
 }
 // LocalStorage
