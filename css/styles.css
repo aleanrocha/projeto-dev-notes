@@ -140,3 +140,18 @@ header button:hover {
 .note.fixed {
   background-color: #3c3c3f !important;
 }
+
+/* responsividade */
+@media screen and (max-width: 992px) {
+  header #search-container input {width: 300px;}
+}
+@media screen and (max-width: 580px) {
+  header {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  #notes-container {grid-template-columns: repeat(auto-fill, 100%);  }
+  #add-note-container {
+    width: 90%;
+  }
+}
